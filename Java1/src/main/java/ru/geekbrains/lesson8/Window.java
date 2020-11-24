@@ -4,15 +4,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
 
-
 public class Window extends JFrame {
 
-        private static final ImageIcon ICON_X = new ImageIcon("/Users/socialgun/IdeaProjects/JAVAgeekbrains/Java1/src/main/resources/ru.geekbrains/lesson8/X.png");
-        private static final ImageIcon ICON_O = new ImageIcon("/Users/socialgun/IdeaProjects/JAVAgeekbrains/Java1/src/main/resources/ru.geekbrains/lesson8/O.png");
-        private static final ImageIcon ICON_DEFAULT = new ImageIcon("/Users/socialgun/IdeaProjects/JAVAgeekbrains/Java1/src/main/resources/ru.geekbrains/lesson8/def.png");
-        private final JButton[][] map = new JButton[3][3];
-        private static int clickCount = 0;
-
+    private static final ImageIcon ICON_X = new ImageIcon(
+            "/Users/socialgun/IdeaProjects/JAVAgeekbrains/Java1/src/main/resources/ru.geekbrains/lesson8/" +
+                    "X.png");
+    private static final ImageIcon ICON_O = new ImageIcon(
+            "/Users/socialgun/IdeaProjects/JAVAgeekbrains/Java1/src/main/resources/ru.geekbrains/lesson8/" +
+                    "O.png");
+    private static final ImageIcon ICON_DEFAULT = new ImageIcon(
+            "/Users/socialgun/IdeaProjects/JAVAgeekbrains/Java1/src/main/resources/ru.geekbrains/lesson8/" +
+                    "def.png");
+    private final JButton[][] map = new JButton[3][3];
+    private static int clickCount = 0;
 
     private void initMap(JPanel panel) {
         for (int i = 0; i < 3; i++) {
@@ -28,52 +32,11 @@ public class Window extends JFrame {
                     btn.setEnabled(false);
                     clickCount++;
 
-                    if(clickCount == 5) {
-                        JFrame frame = new JFrame("Ничья");
-                        frame.setSize(300, 100);
-                        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-                        frame.setLocationRelativeTo(null);
-                        JPanel p = new JPanel();
-                        JButton close = new JButton("CLOSE");
-                        close.addActionListener(e -> {
-                            dispose();
-                            frame.dispose();
-                        });
-                        JButton newGame = new JButton("NEW GAME");
-                        newGame.addActionListener(e -> {
-                            clickCount = 0;
-                            new Window();
-                            dispose();
-                            frame.dispose();
-                        });
-                        p.add(close);
-                        p.add(newGame);
-                        frame.add(p);
-                        frame.setVisible(true);
+                    if (clickCount == 5) {
+                        playOrNot("Ничья.");
 
                     } else if (isVictory(ICON_X)) {
-                        JFrame frame = new JFrame("Победа!");
-                        frame.setSize(300, 100);
-                        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-                        frame.setLocationRelativeTo(null);
-                        JPanel p = new JPanel();
-                        JButton close = new JButton("CLOSE");
-                        close.addActionListener(e -> {
-                            dispose();
-                            frame.dispose();
-                        });
-                        JButton newGame = new JButton("NEW GAME");
-                        newGame.addActionListener(e -> {
-                            clickCount = 0;
-                            new Window();
-                            dispose();
-                            frame.dispose();
-                        });
-                        p.add(close);
-                        p.add(newGame);
-                        frame.add(p);
-                        frame.setVisible(true);
-
+                        playOrNot("Победа!");
                     } else {
                         int v;
                         int m;
@@ -88,33 +51,38 @@ public class Window extends JFrame {
                         map[m][v].setEnabled(false);
 
                         if (isVictory(ICON_O)) {
-                            JFrame frame = new JFrame("Поражение.");
-                            frame.setSize(300, 100);
-                            frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-                            frame.setLocationRelativeTo(null);
-                            JPanel p = new JPanel();
-                            JButton close = new JButton("CLOSE");
-                            close.addActionListener(e -> {
-                                dispose();
-                                frame.dispose();
-                            });
-                            JButton newGame = new JButton("NEW GAME");
-                            newGame.addActionListener(e -> {
-                                clickCount = 0;
-                                new Window();
-                                dispose();
-                                frame.dispose();
-                            });
-                            p.add(close);
-                            p.add(newGame);
-                            frame.add(p);
-                            frame.setVisible(true);
+                            playOrNot("Поражение.");
                         }
                     }
                 });
                 panel.add(btn);
             }
         }
+    }
+
+    private void playOrNot(String string) {
+        JFrame frame = new JFrame(string);
+        frame.setSize(300, 100);
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        JPanel p = new JPanel();
+        JButton close = new JButton("CLOSE");
+        close.addActionListener(e -> {
+            dispose();
+            frame.dispose();
+        });
+        JButton newGame = new JButton("NEW GAME");
+        newGame.addActionListener(e ->
+        {
+            clickCount = 0;
+            new Window();
+            dispose();
+            frame.dispose();
+        });
+        p.add(close);
+        p.add(newGame);
+        frame.add(p);
+        frame.setVisible(true);
     }
 
     private boolean isFree(int i, int j) {
@@ -134,7 +102,7 @@ public class Window extends JFrame {
                     sumH++;
                     if (sumH == 3) return true;
                 }
-                if (map[j][i].getIcon().equals(symbol)){
+                if (map[j][i].getIcon().equals(symbol)) {
                     sumV++;
                     if (sumV == 3) return true;
                 }
@@ -143,7 +111,7 @@ public class Window extends JFrame {
                 sumD1++;
                 if (sumD1 == 3) return true;
             }
-            if(map[i][3 - i - 1].getIcon().equals(symbol)) {
+            if (map[i][3 - i - 1].getIcon().equals(symbol)) {
                 sumD2++;
                 if (sumD2 == 3) return true;
             }
@@ -152,21 +120,21 @@ public class Window extends JFrame {
     }
 
     public Window() throws HeadlessException {
-            setSize(300, 300);
-            setDefaultCloseOperation(EXIT_ON_CLOSE);
-            setLocationRelativeTo(null);
+        setSize(300, 300);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
-            JPanel panel = new JPanel(new GridLayout(3,3));
+        JPanel panel = new JPanel(new GridLayout(3, 3));
 
-            initMap(panel);
-            add(panel);
+        initMap(panel);
+        add(panel);
 
-            setResizable(false);
-            setVisible(true);
-        }
-
-        public static void main(String[] args) {
-            new Window();
-        }
+        setResizable(false);
+        setVisible(true);
     }
+
+    public static void main(String[] args) {
+        new Window();
+    }
+}
 
